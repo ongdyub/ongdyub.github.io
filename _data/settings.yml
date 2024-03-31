@@ -14,8 +14,8 @@ projects:
 - {name: 'Music To Text Description',   url: 'proj-1'}
 - {name: 'BCI - Neural Signal To Sentence',   url: 'proj-2'}
 - {name: 'Multi Document Summarization', url: 'proj-3'}
-- {name: 'Project Four',  url: 'proj-4'}
-- {name: 'Project Five',  url: 'proj-5'}
+# - {name: '아마추어 음악가의 별자리 - 음자리 웹 플랫폼',  url: 'proj-4'}
+# - {name: 'Project Five',  url: 'proj-5'}
 
 #-------------------------------
 # Contact Section

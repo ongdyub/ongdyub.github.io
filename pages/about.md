@@ -7,7 +7,7 @@ permalink: /about
 ## Dongyub, Han
 
 
-대충 사진 공간
+![ProfileImg](../assets/img/projects/about/info.png){: width="100%"}
 
 --------------------------------------------------
 
@@ -44,6 +44,9 @@ permalink: /about
 --------------------------------------------------
 
 #### Experiences
+
+##### Seoul National Univ - Music & Audio Research Group(MARG) - Intern
+2024-03 ~ 2024-06
 
 ##### Google Machine Learning BootCamp
 2023-09 ~ 2023-11
