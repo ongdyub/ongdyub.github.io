@@ -91,11 +91,11 @@ Music-Description Dadtaset 에 대한 평가 지표가 존재하지 않아 Loss�
 1 Input Audio
 
 <audio controls>
-<source src="../assets/img/projects/proj-1/example1.mp3" type="audio/mpeg">
-This is a classical music piece. It could also be playing in the background at a coffee shop.
+<source src="../assets/img/projects/proj-1/zeUEOxTd8IE.wav" type="audio/mpeg">
+This song contains a digital drum playing a simple groove with a simple bassline.
 </audio>
 
-**This is a classical music piece. It could also be playing in the background at a coffee shop.**
+**This song contains a digital drum playing a simple groove with a simple bassline.**
 
 2 Input Audio
 
@@ -105,6 +105,116 @@ The low quality recording features a live performance of a folk song and it cons
 </audio>
 
 **The low quality recording features a live performance of a folk song and it consists of groovy bass, shimmering hi hats, soft kick and harmonizing vocals, harmonizing vocals. It sounds energetic.**
+
+3 Input Audio
+
+<audio controls>
+<source src="../assets/img/projects/proj-1/lqCx0HgF1ZM.wav" type="audio/mpeg">
+This is a live performance of a folk music piece. It could be playing in the background at a coffee shop.
+</audio>
+
+**This is a live performance of a folk music piece. It could be playing in the background at a coffee shop.**
+
+
+4 Input Audio
+
+<audio controls>
+<source src="../assets/img/projects/proj-1/OhZmxS5DUKU.wav" type="audio/mpeg">
+This music is a contemporary instrumental. There is a a a male voice in the background.
+</audio>
+
+**This music is a contemporary instrumental. There is a a a male voice in the background.**
+
+
+5 Input Audio
+
+<audio controls>
+<source src="../assets/img/projects/proj-1/4i1aizhCnfg.wav" type="audio/mpeg">
+This song is a Christian gospel song.
+</audio>
+
+**This song is a Christian gospel song.**
+
+
+6 Input Audio
+
+<audio controls>
+<source src="../assets/img/projects/proj-1/aDlWOvCdNMk.wav" type="audio/mpeg">
+This music is instrumental. The tempo is slow with an electric guitar lead.
+</audio>
+
+**This music is instrumental. The tempo is slow with an electric guitar lead.**
+
+
+7 Input Audio
+
+<audio controls>
+<source src="../assets/img/projects/proj-1/UfEGX0rNOvA.wav" type="audio/mpeg">
+This is a pop music piece. It is an instrumental piece. There is an electronic drum beat in the rhythmic background. It could also be playing in the background at a dance course.
+</audio>
+
+**This is a pop music piece. It is an instrumental piece. There is an electronic drum beat in the rhythmic background. It could also be playing in the background at a dance course.**
+
+
+8 Input Audio
+
+<audio controls>
+<source src="../assets/img/projects/proj-1/Ovk5EfFj7Ws.wav" type="audio/mpeg">
+This song contains a digital drum playing a simple groove with a simple beat.
+</audio>
+
+**This song contains a digital drum playing a simple groove with a simple beat.**
+
+
+9 Input Audio
+
+<audio controls>
+<source src="../assets/img/projects/proj-1/Mir959i7F2M.wav" type="audio/mpeg">
+The song is an instrumental. The song is medium tempo with a modern pop dance tune and has poor audio quality.
+</audio>
+
+**The song is an instrumental. The song is medium tempo with a modern pop dance tune and has poor audio quality.**
+
+
+10 Input Audio
+
+<audio controls>
+<source src="../assets/img/projects/proj-1/K6DSH7MSeOA.wav" type="audio/mpeg">
+The tempo is slow with a Didgeridooo.
+</audio>
+
+**The tempo is slow with a Didgeridooo.**
+
+
+11 Input Audio
+
+<audio controls>
+<source src="../assets/img/projects/proj-1/I4Jp0kB2Ns0.wav" type="audio/mpeg">
+This song contains an acoustic guitar strumming chord progression.
+</audio>
+
+**This song contains an acoustic guitar strumming chord progression.**
+
+
+12 Input Audio
+
+<audio controls>
+<source src="../assets/img/projects/proj-1/EwoCbcSXlSM-.wav" type="audio/mpeg">
+The low quality recording features a live performance of a folk song and it consists of consists of a groovy bass, soft kick, shimmering hi hat. It sounds emotional and a bit a bit - like something you would hear in a bit a bit a bit noisy.
+</audio>
+
+**The low quality recording features a live performance of a folk song and it consists of consists of a groovy bass, soft kick, shimmering hi hat. It sounds emotional and a bit a bit - like something you would hear in a bit a bit a bit noisy.**
+
+
+13 Input Audio
+
+<audio controls>
+<source src="../assets/img/projects/proj-1/example1.mp3" type="audio/mpeg">
+This is a classical music piece. It could also be playing in the background at a coffee shop.
+</audio>
+
+**This is a classical music piece. It could also be playing in the background at a coffee shop.**
+
 
 #### Train-Test Loss Graph
 
