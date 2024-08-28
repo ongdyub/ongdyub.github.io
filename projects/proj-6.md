@@ -3,6 +3,16 @@ layout: post
 title: 'Hierarchical Symbolic Music Generation : Step 1 - Chord'
 ---
 
+#### Project Description
+
+Multi-Track Symbolic Music Generation 을 설계하기 위한 연구이다.
+
+Hierarchical 하게 구성을 하였고, 그 단계 중에서도 첫번째 단계인 Chord Generation 에 관련된 연구이다.
+
+Github Model Code : [https://github.com/ongdyub/ChordGeneration/blob/main/src/model/transformer.py](https://github.com/ongdyub/ChordGeneration/blob/main/src/model/transformer.py){:target="_blank"}
+
+-----------------------------------------------------
+
 ## Problem Definition
 
 현재 Multi-Track Symbolic Music Generation 분야에서는 4~8개의 Track을 주 Task로 삼고 있는 반면에, 12개 이상의 경우에는 2022 ISMIR에 발표된 "SymphoneyGen" 이 현재 SOTA model로 알려져 있다.
