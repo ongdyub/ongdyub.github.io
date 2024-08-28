@@ -35,7 +35,7 @@ title: 'Hierarchical Symbolic Music Generation : Step 1 - Chord'
 
 > 정해진 리듬에 코드와 관계있는 음을 부여하는 단계
 
-![Model Structure](../assets/img/projects/proj-5/structure.png)
+![Model Structure](../assets/img/projects/proj-6/structure.png)
 
 -------------------------------------------------------
 
@@ -61,17 +61,17 @@ Baseline으로 삼은 Symphony Gen 과 비교했을때 __Generation Length, Musi
 
 
 <figure align="center">
-<img src="../assets/img/projects/proj-5/f1.png" alt="Gparkkii's Zepeto" witdh="300" height="300"/>
+<img src="../assets/img/projects/proj-6/f1.png" alt="Gparkkii's Zepeto" witdh="300" height="300"/>
 <figcaption>그림 1: 제안한 Transformer Chord Generation Model을 활용한 생성. Length의 분포가 Test Set과 비슷함을 볼 수 있고 긴 길이의 곡도 충분히 생성 가능함을 볼 수 있다.</figcaption>
 </figure>
 
 <figure align="center">
-<img src="../assets/img/projects/proj-5/f2.png" alt="Gparkkii's Zepeto" witdh="300" height="300"/>
+<img src="../assets/img/projects/proj-6/f2.png" alt="Gparkkii's Zepeto" witdh="300" height="300"/>
 <figcaption>그림 2: Chord Generation에 사용된 Test set에 속한 곡의 길이 분포이다.</figcaption>
 </figure>
 
 <figure align="center">
-<img src="../assets/img/projects/proj-5/f3.png" alt="Gparkkii's Zepeto" witdh="300" height="300"/>
+<img src="../assets/img/projects/proj-6/f3.png" alt="Gparkkii's Zepeto" witdh="300" height="300"/>
 <figcaption>그림 3: Baseline을 활용한 생성. Length의 분포가 짧고 몰려있다. 200마디 이상의 곡은 생성이 전혀 되지 않음을 볼 수 있다.</figcaption>
 </figure>
 
@@ -88,18 +88,18 @@ Chord Sequence를 학습 할 경우 **_추가적인 요소 없이도_** 모델�
 아래 결과와 같이 추가적인 정보 없이도 모델이 코드 간의 거리를 5도권에 맞게 학습됨을 볼 수 있다.
 
 <figure align="center">
-<img src="../assets/img/projects/proj-5/f4.png" alt="Gparkkii's Zepeto" witdh="300" height="300"/>
+<img src="../assets/img/projects/proj-6/f4.png" alt="Gparkkii's Zepeto" witdh="300" height="300"/>
 <figcaption>그림 4: 5도권 Circle. 인접한 경우 가까운 화음, 반대쪽에 있을 경우 먼 화음이다.</figcaption>
 </figure>
 
 
 <figure align="center">
-<img src="../assets/img/projects/proj-5/f5.png" alt="Gparkkii's Zepeto" witdh="450" height="270"/>
+<img src="../assets/img/projects/proj-6/f5.png" alt="Gparkkii's Zepeto" witdh="450" height="270"/>
 <figcaption>그림 5 : 12개의 근음에 대한 Major Chord Token(왼쪽)과 minor Chord Token(오른쪽) Embedding 사이의 Cosine Similarity를 측정한 표이다. 별도의 추가적인 Inductive Bias 없이도 모델이 음악적 의미를 학습할 수 있음을 보였다. C-Maj를 기준으로 상행 5도, 하행 5도에 있는 G-Maj, F-Maj가 가장 유사도가 높게 측정되었고, 5도권 Circle의 반대에 있는 F#-Maj 가 유사도가 낮게 나옴을 볼 수 있다. 대각선을 따라서 패턴이 보이므로 다른 음들에 대해서도 같은 경향이 있음을 알 수 있다.</figcaption>
 </figure>
 
 <figure align="center">
-<img src="../assets/img/projects/proj-5/f6.png" alt="Gparkkii's Zepeto" witdh="400" height="400"/>
+<img src="../assets/img/projects/proj-6/f6.png" alt="Gparkkii's Zepeto" witdh="400" height="400"/>
 <figcaption>그림 6: 모든 Token에 대한 Cosine Similarity Matrix 이다. Chord Token은 근음 한개당 11종류의 코드 (D+, D/o7, DD7, DM, DM7, Dm, Dm7, D0, Do7, Dsus2, Dsus4)로 총 12*11 = 132 개로 구성되어있다. 마찬가지로 5도 관계에 있는 화음끼리 유사도가 높고 같은 근음을 가지는 화음 끼리의 유사도도 높음을 볼 수 있다.</figcaption>
 </figure>
 
@@ -110,17 +110,17 @@ Chord Sequence를 학습 할 경우 **_추가적인 요소 없이도_** 모델�
 아래 그림과 같이 Test Set 에 대해서도 생성한 Chord의 Distribution이 Baseline 보다 더 일치하는 것을 보였다.
 
 <figure align="center">
-<img src="../assets/img/projects/proj-5/f7.png" alt="Gparkkii's Zepeto" witdh="300" height="300"/>
+<img src="../assets/img/projects/proj-6/f7.png" alt="Gparkkii's Zepeto" witdh="300" height="300"/>
 <figcaption>그림 7: 제안한 Transformer Chord Generation Model을 활용한 생성된 Chord의 분포이다. 아래 Target의 분포와 비교해 보았을때  Base Line이 생성한 분포보다 더 비슷함을 볼 수 있다.</figcaption>
 </figure>
 
 <figure align="center">
-<img src="../assets/img/projects/proj-5/f8.png" alt="Gparkkii's Zepeto" witdh="300" height="300"/>
+<img src="../assets/img/projects/proj-6/f8.png" alt="Gparkkii's Zepeto" witdh="300" height="300"/>
 <figcaption>그림 8: Chord Generation에 사용된 Test set에 속한 곡의 길이 분포이다.</figcaption>
 </figure>
 
 <figure align="center">
-<img src="../assets/img/projects/proj-5/f9.png" alt="Gparkkii's Zepeto" witdh="300" height="300"/>
+<img src="../assets/img/projects/proj-6/f9.png" alt="Gparkkii's Zepeto" witdh="300" height="300"/>
 <figcaption>그림 9: Baseline을 활용한 생성. Chord의 분포가 고른 편이지만 일정 부분은 Target Set과 약간의 차이가 존재한다.</figcaption>
 </figure>
 
@@ -135,12 +135,12 @@ Chord Sequence를 학습 할 경우 **_추가적인 요소 없이도_** 모델�
 이를 활용해 Long Sequence Data를 압축 가능하다.
 
 <figure align="center">
-<img src="../assets/img/projects/proj-5/f10.png" alt="Gparkkii's Zepeto" witdh="300" height="300"/>
+<img src="../assets/img/projects/proj-6/f10.png" alt="Gparkkii's Zepeto" witdh="300" height="300"/>
 <figcaption>그림 10: Test Set에 대한 각 모델별 Chord Predict Accuracy 이다. BPE 를 사용해 Vocab Size를 150 에서 20000으로 늘릴 경우 동일한 모델 사이즈일 경우 정확도가 떨어지지만 크기를 늘릴 경우 150 case와 비슷해짐을 볼 수 있다.</figcaption>
 </figure>
 
 <figure align="center">
-<img src="../assets/img/projects/proj-5/f11.png" alt="Gparkkii's Zepeto" witdh="300" height="500"/>
+<img src="../assets/img/projects/proj-6/f11.png" alt="Gparkkii's Zepeto" witdh="300" height="500"/>
 <figcaption>그림 11: BPE를 활용한 Vocab Size 수에 따른 Dataset Sequence Length 그래프이다. Vocab 수가 많아 질 수록 약 60-80 정도로 압축이 됨을 볼 수 있다.</figcaption>
 </figure>
 
