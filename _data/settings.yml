@@ -11,7 +11,7 @@ menu:
 # Projects Section
 
 projects:
-- {name: 'Hierarchical Symbolic Music Generation : Chord',  url: 'proj-5'}
+- {name: 'Hierarchical Symbolic Music Generation : Chord',  url: 'proj-6'}
 - {name: 'Music To Text Description',   url: 'proj-1'}
 - {name: 'BCI - Neural Signal To Sentence',   url: 'proj-2'}
 - {name: 'Multi Document Summarization', url: 'proj-3'}
