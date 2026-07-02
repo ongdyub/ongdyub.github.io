@@ -1,12 +1,12 @@
 # Build settings
 
 port: 4000
-markdown:  kramdown
+markdown: kramdown
 permalink: /:title
-plugins:   [jekyll-sitemap, jekyll-feed,  jekyll-seo-tag]
+plugins: [jekyll-sitemap, jekyll-feed, jekyll-seo-tag]
 
 # Customise atom feed settings (this is where Jekyll-Feed gets configuration information)
 
-title:		   "Dongyub, Han"
-description: "Powered by Jekyll and GitHub Pages"
-author:      "Dongyub, Han"
+title: "Dongyub, Han"
+description: "Dongyub Han portfolio: publications and projects in EMG-to-speech, speech/audio AI, MIR, and symbolic music generation."
+author: "Dongyub, Han"

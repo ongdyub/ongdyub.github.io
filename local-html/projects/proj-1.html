@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Personal portfolio powered by Ongdyub and GitHub Pages "><title>Music to Text Description | Dongyub, Han</title><link rel="stylesheet" href="../assets/css/all.css"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"><link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"><script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script></head><body><div class="site-container"><header><div class="logo"><a href="../index.html">Dongyub, Han</a></div><nav><a href="../index.html">Projects</a><a href="../about.html">About</a><a href="../contact.html">Contact</a></nav></header><section><div class="post-container"><h4 class="project-title">Music to Text Description</h4><div class="project-load"><h4>Project Description</h4>
+<p>This project was an intermediate step for solving a problem that arose while trying to generate theme songs for professional League of Legends players.</p>
+<p>Github : <a href="https://github.com/ongdyub/Music-To-Text-Description-Model">https://github.com/ongdyub/Music-To-Text-Description-Model</a></p>
+<hr />
+<p><strong>Let's create a song that can represent a player!</strong></p>
+<blockquote>
+<p>What metric should define whether a song represents a player?</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><em>Use the champions played by the player as the representative signal.</em></p>
+</blockquote>
+</blockquote>
+<p><strong>How can the proper noun &quot;champion&quot; be used for Music Generation?</strong></p>
+<blockquote>
+<p>Since it is a proper noun, focus on the unique characteristics of each champion.</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>Images have multiple skins, so instead use the <em>champion's official theme song</em>, which usually exists as a single canonical source.</p>
+</blockquote>
+</blockquote>
+<p><strong>How can a champion's theme song be applied to Music Generation?</strong></p>
+<blockquote>
+<p>Check the input and output API formats of facebook/MusicGen, the model used for generation.</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>There are three types: <em>Text Condition Gen, Audio Condition Gen, and Melody Condition Gen</em>.</p>
+</blockquote>
+</blockquote>
+<h4>Then convert the champion's theme song into a description and use it as the condition.</h4>
+<p><strong>But how should the description be created?</strong></p>
+<blockquote>
+<p><strong>Develop a model that automatically generates a description when music is provided as input.</strong></p>
+</blockquote>
+<hr />
+<h4>Technologies Used</h4>
+<p>Pytorch, Huggingface, Colab</p>
+<h4>Project Details</h4>
+<ol>
+<li><p>Dataset</p>
+<p>Used the Music Theme dataset from AudioSet and the MusicCaps dataset.</p>
+<p>AudioSet provided about 15k ytid-start-end-description pairs, and MusicCaps provided about 5.5k samples. Each raw audio clip was 10 seconds long.</p>
+<p>I initially planned to use the full dataset for training, but due to Colab cost constraints <del>poor undergraduate student</del>, I used only 6k samples from the MusicCaps + AudioSet combination.</p>
+<p><strong>Example Dataset</strong></p>
+<p><img src="../assets/img/projects/proj-1/table1.png" alt="Table1" /></p>
+</li>
+<li><p>Models</p>
+<p>Audio Encoder candidates: AST, Wav2Vec2, Encodec, Hubert</p>
+<p>Text Decoder Structure candidates: Plain Transformer, T5, LLaMa</p>
+<p>Due to GPU cost constraints, I did not run full training. Instead, I checked train/test loss during the first 10 epochs to choose the combination. I also varied whether each component was pretrained or trained from scratch.</p>
+<p>The final combination was</p>
+<p><strong>Encodec(Pre-Trained) + Plain-Transformer(From-Scratch)</strong></p>
+<p><strong>Why?</strong></p>
+<blockquote>
+<p>Encodec is also the audio model actually used in MusicGen. The biggest difference from other audio encoders is that other encoders output tensors in the form [bsz, seq_len, hidden_dim], while Encodec uses a quantizer-based encoder-decoder structure and outputs audio-codebook-like tokens in the form [bsz, # of codebook, codebook_seq].</p>
+</blockquote>
+<p>In terms of the input-output structure, this is <em><strong>the same as a text-to-text model in conventional NLP</strong></em>.</p>
+<p><img src="../assets/img/projects/proj-1/structure.png" alt="Model Structure" /></p>
+</li>
+</ol>
+<hr />
+<h4>Results</h4>
+<p>Since no evaluation metric exists for the Music-Description dataset, I used loss as the primary criterion.</p>
+<p>The examples below show that the model produced reasonable outputs.</p>
+<h4>Examples Outputs</h4>
+<p>1 Input Audio</p>
+<p>&lt;audio controls&gt;
+&lt;source src=&quot;../assets/img/projects/proj-1/zeUEOxTd8IE.wav&quot; type=&quot;audio/mpeg&quot;&gt;
+This song contains a digital drum playing a simple groove with a simple bassline.
+&lt;/audio&gt;</p>
+<p><strong>This song contains a digital drum playing a simple groove with a simple bassline.</strong></p>
+<p>2 Input Audio</p>
+<p>&lt;audio controls&gt;
+&lt;source src=&quot;../assets/img/projects/proj-1/example2.mp3&quot; type=&quot;audio/mpeg&quot;&gt;
+The low quality recording features a live performance of a folk song and it consists of groovy bass, shimmering hi hats, soft kick and harmonizing vocals, harmonizing vocals. It sounds energetic.
+&lt;/audio&gt;</p>
+<p><strong>The low quality recording features a live performance of a folk song and it consists of groovy bass, shimmering hi hats, soft kick and harmonizing vocals, harmonizing vocals. It sounds energetic.</strong></p>
+<p>3 Input Audio</p>
+<p>&lt;audio controls&gt;
+&lt;source src=&quot;../assets/img/projects/proj-1/lqCx0HgF1ZM.wav&quot; type=&quot;audio/mpeg&quot;&gt;
+This is a live performance of a folk music piece. It could be playing in the background at a coffee shop.
+&lt;/audio&gt;</p>
+<p><strong>This is a live performance of a folk music piece. It could be playing in the background at a coffee shop.</strong></p>
+<p>4 Input Audio</p>
+<p>&lt;audio controls&gt;
+&lt;source src=&quot;../assets/img/projects/proj-1/OhZmxS5DUKU.wav&quot; type=&quot;audio/mpeg&quot;&gt;
+This music is a contemporary instrumental. There is a a a male voice in the background.
+&lt;/audio&gt;</p>
+<p><strong>This music is a contemporary instrumental. There is a a a male voice in the background.</strong></p>
+<p>5 Input Audio</p>
+<p>&lt;audio controls&gt;
+&lt;source src=&quot;../assets/img/projects/proj-1/4i1aizhCnfg.wav&quot; type=&quot;audio/mpeg&quot;&gt;
+This song is a Christian gospel song.
+&lt;/audio&gt;</p>
+<p><strong>This song is a Christian gospel song.</strong></p>
+<p>6 Input Audio</p>
+<p>&lt;audio controls&gt;
+&lt;source src=&quot;../assets/img/projects/proj-1/aDlWOvCdNMk.wav&quot; type=&quot;audio/mpeg&quot;&gt;
+This music is instrumental. The tempo is slow with an electric guitar lead.
+&lt;/audio&gt;</p>
+<p><strong>This music is instrumental. The tempo is slow with an electric guitar lead.</strong></p>
+<p>7 Input Audio</p>
+<p>&lt;audio controls&gt;
+&lt;source src=&quot;../assets/img/projects/proj-1/UfEGX0rNOvA.wav&quot; type=&quot;audio/mpeg&quot;&gt;
+This is a pop music piece. It is an instrumental piece. There is an electronic drum beat in the rhythmic background. It could also be playing in the background at a dance course.
+&lt;/audio&gt;</p>
+<p><strong>This is a pop music piece. It is an instrumental piece. There is an electronic drum beat in the rhythmic background. It could also be playing in the background at a dance course.</strong></p>
+<p>8 Input Audio</p>
+<p>&lt;audio controls&gt;
+&lt;source src=&quot;../assets/img/projects/proj-1/Ovk5EfFj7Ws.wav&quot; type=&quot;audio/mpeg&quot;&gt;
+This song contains a digital drum playing a simple groove with a simple beat.
+&lt;/audio&gt;</p>
+<p><strong>This song contains a digital drum playing a simple groove with a simple beat.</strong></p>
+<p>9 Input Audio</p>
+<p>&lt;audio controls&gt;
+&lt;source src=&quot;../assets/img/projects/proj-1/Mir959i7F2M.wav&quot; type=&quot;audio/mpeg&quot;&gt;
+The song is an instrumental. The song is medium tempo with a modern pop dance tune and has poor audio quality.
+&lt;/audio&gt;</p>
+<p><strong>The song is an instrumental. The song is medium tempo with a modern pop dance tune and has poor audio quality.</strong></p>
+<p>10 Input Audio</p>
+<p>&lt;audio controls&gt;
+&lt;source src=&quot;../assets/img/projects/proj-1/K6DSH7MSeOA.wav&quot; type=&quot;audio/mpeg&quot;&gt;
+The tempo is slow with a Didgeridooo.
+&lt;/audio&gt;</p>
+<p><strong>The tempo is slow with a Didgeridooo.</strong></p>
+<p>11 Input Audio</p>
+<p>&lt;audio controls&gt;
+&lt;source src=&quot;../assets/img/projects/proj-1/I4Jp0kB2Ns0.wav&quot; type=&quot;audio/mpeg&quot;&gt;
+This song contains an acoustic guitar strumming chord progression.
+&lt;/audio&gt;</p>
+<p><strong>This song contains an acoustic guitar strumming chord progression.</strong></p>
+<p>12 Input Audio</p>
+<p>&lt;audio controls&gt;
+&lt;source src=&quot;../assets/img/projects/proj-1/EwoCbcSXlSM-.wav&quot; type=&quot;audio/mpeg&quot;&gt;
+The low quality recording features a live performance of a folk song and it consists of consists of a groovy bass, soft kick, shimmering hi hat. It sounds emotional and a bit a bit - like something you would hear in a bit a bit a bit noisy.
+&lt;/audio&gt;</p>
+<p><strong>The low quality recording features a live performance of a folk song and it consists of consists of a groovy bass, soft kick, shimmering hi hat. It sounds emotional and a bit a bit - like something you would hear in a bit a bit a bit noisy.</strong></p>
+<p>13 Input Audio</p>
+<p>&lt;audio controls&gt;
+&lt;source src=&quot;../assets/img/projects/proj-1/example1.mp3&quot; type=&quot;audio/mpeg&quot;&gt;
+This is a classical music piece. It could also be playing in the background at a coffee shop.
+&lt;/audio&gt;</p>
+<p><strong>This is a classical music piece. It could also be playing in the background at a coffee shop.</strong></p>
+<h4>Train-Test Loss Graph</h4>
+<p><img src="../assets/img/projects/proj-1/loss_graph.png" alt="Model Structure" /></p>
+</div></div></section><footer><div class="footer-wrap"><div class="footer-tagline"><p></p></div><div class="social-media"><nav><a href="https://github.com/ongdyub" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a><a href="mailto:gksehdduq912@gmail.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a><a href="https://www.youtube.com/@user-ju5ov6yx9m" target="_blank"><i class="fa fa-youtube" aria-hidden="true"></i></a></nav></div></div></footer></div><script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script></body></html>

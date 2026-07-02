@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Personal portfolio powered by Ongdyub and GitHub Pages "><title>Brain Neural Signal To Sentence | Dongyub, Han</title><link rel="stylesheet" href="../assets/css/all.css"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"><link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"><script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script></head><body><div class="site-container"><header><div class="logo"><a href="../index.html">Dongyub, Han</a></div><nav><a href="../index.html">Projects</a><a href="../about.html">About</a><a href="../contact.html">Contact</a></nav></header><section><div class="post-container"><h4 class="project-title">Brain Neural Signal To Sentence</h4><div class="project-load"><h4>Project Description</h4>
+<p>This project restores, in real time, the sentence a paralyzed patient is trying to speak from neural signals recorded from the patient's brain.</p>
+<p>Using Transformers and LLMs, I improved both CER and WER without relying on a pretrained model for the main task.</p>
+<h4>Challenges</h4>
+<ol>
+<li><p>The input dataset is an uncommon type of data: direct electrical signals from the brain region that controls the muscles used for articulation.</p>
+</li>
+<li><p>Decoding brain electrical signals, or spike power, directly into sentences is a low-to-high dimensional task.</p>
+</li>
+<li><p>There are no pretrained LMs or LLMs specifically aligned with this task.</p>
+</li>
+</ol>
+<h4>Solution</h4>
+<p><strong>The work was divided into three subtasks.</strong></p>
+<ol>
+<li><p>Brain to Phoneme</p>
+</li>
+<li><p>Phoneme to Sentence</p>
+</li>
+<li><p>Brain to Sentence</p>
+</li>
+</ol>
+<p><strong>Going beyond the GRU-based approach of the original paper, I used Transformers and GPT-2.5-style rescoring to improve both CER and WER.</strong></p>
+<p>Paper : <a href="https://www.nature.com/articles/s41586-023-06377-x#Sec9">A high-performance speech neuroprosthesis</a></p>
+<p>Github : <a href="https://github.com/ongdyub/BCI">https://github.com/ongdyub/BCI</a></p>
+<hr />
+<h4>Technologies Used</h4>
+<p>TensorFlow</p>
+<h4>Project Details</h4>
+<p><strong>1. Dataset</strong></p>
+<p>To pronounce words, the muscles around the mouth must move according to each word.</p>
+<p>Because the brain regions that control these muscle movements are known, electrodes can be implanted in those regions to measure electrical signal changes over time.</p>
+<p>For data robustness, the study did not use only a single recording per sentence. Instead, it used multiple recordings of the same sentence collected across several days as input data.</p>
+<p><img src="../assets/img/projects/proj-2/bcidata.png" alt="BrainData" /></p>
+<hr />
+<p><strong>2. Task 1 - Brain To Phoneme</strong></p>
+<p>This method first decodes the input electrical signals into a sequence of phonemes.</p>
+<p>The original paper used a GRU for this process. I therefore tested approaches such as changing the GRU hidden dimension and layer count, trying LSTM variants,</p>
+<p>treating the input electrical signals as embeddings for a Transformer Encoder and decoding phonemes through a Decoder,</p>
+<p>and finally adding self-attention computation inside GRU/LSTM cells, based on the assumption that muscle movements during speech are influenced by both previous and future contexts.</p>
+<p>For the loss function, I used CTC Loss because the task must align a fixed-length input with a variable-length target and is similar to an STT task.</p>
+<p><img src="../assets/img/projects/proj-2/1.png" alt="Model Structure" /></p>
+<hr />
+<p><strong>3. Task 2 - Phoneme to Sentence</strong></p>
+<p>This method converts the output of the model trained in Task 1 into a final sentence.</p>
+<p>The original paper used 3-gram and 5-gram language models for this process. Based on the phoneme sequence produced by Task 1, it inferred the sentence by selecting the corpus sequence with the highest n-gram probability. Therefore, we tried the following approaches:</p>
+<ol>
+<li><p>Use the Transformer Encoder from Task 1 and restore the sentence with a Transformer Decoder structure.</p>
+</li>
+<li><p>Restore the sentence after probability rescoring with an LLM rather than a conventional LM.</p>
+</li>
+</ol>
+<p><img src="../assets/img/projects/proj-2/2.png" alt="Model Structure" />
+<img src="../assets/img/projects/proj-2/3.png" alt="Model Structure" /></p>
+<hr />
+<p><strong>3. Task 3 - Brain to Sentence</strong></p>
+<p>This method directly restores a sentence from brain spike power, which was not attempted in the paper.</p>
+<p>Because spike power input is time-series data, I judged that a Transformer structure would be suitable.</p>
+<p>Based on the units that make up a sentence, I tested two types of decoders as below.</p>
+<ol>
+<li><p>Word-token-unit decoding (e.g., I love you -&gt; &quot;I&quot;, &quot;love&quot;, &quot;you&quot;)</p>
+</li>
+<li><p>Character-unit decoding (e.g., I love you -&gt; I, l, o, v, e, y, o, u)</p>
+</li>
+</ol>
+<hr />
+<h4>Results</h4>
+<p><strong>Task. 1</strong></p>
+<p>Compared with the method proposed in the paper, CER improved from 0.188 to 0.176.</p>
+<p>As shown in the table below, after testing several experiment variants, the Attention at Middle + Baseline-GRU combination performed best.</p>
+<p>The Mid variant also decreased rapidly on the validation set.</p>
+<p>I inferred from this result that brain electrical signals are high-dimensional, so a single simple GRU structure or a small amount of self-attention, such as only at the input or output, may be insufficient to capture the information.</p>
+<p><img src="../assets/img/projects/proj-2/4.png" alt="Model Structure" /></p>
+<p><img src="../assets/img/projects/proj-2/5.png" alt="Model Structure" /></p>
+<hr />
+<p><strong>Task. 2</strong></p>
+<p>Due to limited computing resources, I could not run the 5-gram experiments.</p>
+<p>However, using the 3-gram baseline, the table below shows that WER improves when GPT-2-based rescoring is applied.</p>
+<p>K denotes the number of candidate sentences used for scoring. As K increases, the probability of selecting a better sentence naturally increases.</p>
+<p><img src="../assets/img/projects/proj-2/6.png" alt="Model Structure" /></p>
+<hr />
+<p><strong>Task. 3</strong></p>
+<p>Directly decoding brain signals into sentences or characters was not successful.</p>
+<p>I concluded that this is because brain signals correspond to the movement of muscles used for articulation, not to letters or words themselves.</p>
+<p><img src="../assets/img/projects/proj-2/7.png" alt="Model Structure" /></p>
+<hr />
+<h4>Conclusions</h4>
+<ol>
+<li><p>Self Attention &amp; Bi-Direction Improves Decode Phoneme</p>
+<p>Both self-attention computation and the bidirectional structure were effective for restoring phonemes from brain signals.</p>
+<p>This can be interpreted in relation to the high-dimensional information exchange characteristics of the human brain.</p>
+</li>
+<li><p>Feature Extraction is More Important</p>
+<p>Although attention improved CER/WER, the improvement was not large.</p>
+<p>Therefore, stronger performance would likely require augmenting brain-signal data, designing better post-processing methods, or constructing a cleaner dataset with less noise.</p>
+</li>
+<li><p>Brain Signal Must Be Decoded in Phonemes</p>
+<p>Because brain signals are related to the &quot;articulation muscles,&quot; they should be restored at the phoneme level rather than directly at the word or character level.</p>
+</li>
+</ol>
+</div></div></section><footer><div class="footer-wrap"><div class="footer-tagline"><p></p></div><div class="social-media"><nav><a href="https://github.com/ongdyub" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a><a href="mailto:gksehdduq912@gmail.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a><a href="https://www.youtube.com/@user-ju5ov6yx9m" target="_blank"><i class="fa fa-youtube" aria-hidden="true"></i></a></nav></div></div></footer></div><script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script></body></html>

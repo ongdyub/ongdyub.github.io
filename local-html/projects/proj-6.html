@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Personal portfolio powered by Ongdyub and GitHub Pages "><title>Hierarchical Symbolic Music Generation : Step 1 - Chord | Dongyub, Han</title><link rel="stylesheet" href="../assets/css/all.css"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"><link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"><script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script></head><body><div class="site-container"><header><div class="logo"><a href="../index.html">Dongyub, Han</a></div><nav><a href="../index.html">Projects</a><a href="../about.html">About</a><a href="../contact.html">Contact</a></nav></header><section><div class="post-container"><h4 class="project-title">Hierarchical Symbolic Music Generation : Step 1 - Chord</h4><div class="project-load"><h4>Project Description</h4>
+<p>This research aims to design a model for Multi-Track Symbolic Music Generation.</p>
+<p>The generation process is organized hierarchically, and this project focuses on the first stage: Chord Generation.</p>
+<p>Github Model Code : <a href="https://github.com/ongdyub/ChordGeneration/blob/main/src/model/transformer.py">https://github.com/ongdyub/ChordGeneration/blob/main/src/model/transformer.py</a></p>
+<hr />
+<h2>Problem Definition</h2>
+<p>In the current Multi-Track Symbolic Music Generation field, most work treats 4 to 8 tracks as the main task. For cases with 12 or more tracks, &quot;SymphonyGen,&quot; published at ISMIR 2022, is known as the current SOTA model.</p>
+<p>However, that model generates many symbolic tokens by flattening them with a Linear Transformer. I judged that this approach does not sufficiently reflect the properties and structural characteristics of music, so I aimed to design a <strong><em>domain-specific model that incorporates musical knowledge</em></strong>.</p>
+<hr />
+<h2>Proposed Structure</h2>
+<p>Considering the way music is composed and the form of completed pieces, music can be viewed as being organized in phrase units. Therefore, rather than generating measure-level tokens in a flattened sequence with a Linear Transformer, I considered it more reasonable to <strong>generate the broad structure first through a hierarchy</strong>.</p>
+<p>Another goal of this research is to find <strong>model structures that fit the musical elements in each generation stage</strong>, rather than using one Transformer to generate everything at once.</p>
+<p>The overall generation phase was designed as shown below.</p>
+<blockquote>
+<p><strong>Step 1 : Chord Generation</strong></p>
+</blockquote>
+<blockquote>
+<p>Generate the main chord for one measure.</p>
+</blockquote>
+<blockquote>
+<p><strong>Step 2 : Instrument Select</strong></p>
+</blockquote>
+<blockquote>
+<p>Select the instruments to be played in the measure.</p>
+</blockquote>
+<blockquote>
+<p><strong>Step 3 : Rhythm Generation</strong></p>
+</blockquote>
+<blockquote>
+<p>Generate the rhythm that each instrument will play in the measure.</p>
+</blockquote>
+<blockquote>
+<p><strong>Step 4 : Note Assign</strong></p>
+</blockquote>
+<blockquote>
+<p>Assign notes related to the chord to the generated rhythm.</p>
+</blockquote>
+<p><img src="../assets/img/projects/proj-6/structure.png" alt="Model Structure" /></p>
+<hr />
+<h2>Chord Generation</h2>
+<p>In symbolic music, the token types used directly in a MIDI file are {track, instrument type, note, beat}.</p>
+<p>However, the most important element in constructing a piece is <strong>chord progression</strong>, so I selected Chord Generation as the first phase.</p>
+<p>Compared with SymphonyGen, which was used as the baseline, the proposed model performed better in terms of <strong>generation length, musical information, distribution, and efficiency</strong>.</p>
+<hr />
+<h4>Generation Length</h4>
+<p>Even with the same dataset, the baseline generated outputs with limited lengths, while the proposed model showed a distribution similar to the target. The graph below shows the lengths of generated pieces when five measures from the test set were used as prompts.</p>
+<p>The x-axis represents the number of generated measures, and the y-axis represents the number of generated pieces with that measure count.</p>
+<p>&lt;!-- ![Model Structure](../assets/img/projects/proj-1/structure.png) --&gt;</p>
+<p>&lt;figure align=&quot;center&quot;&gt;
+&lt;img src=&quot;../assets/img/projects/proj-6/f1.png&quot; alt=&quot;Gparkkii's Zepeto&quot; witdh=&quot;300&quot; height=&quot;300&quot;/&gt;
+&lt;figcaption&gt;Figure 1: Generation using the proposed Transformer Chord Generation Model. The length distribution is similar to the test set, and the model can generate sufficiently long pieces.&lt;/figcaption&gt;
+&lt;/figure&gt;</p>
+<p>&lt;figure align=&quot;center&quot;&gt;
+&lt;img src=&quot;../assets/img/projects/proj-6/f2.png&quot; alt=&quot;Gparkkii's Zepeto&quot; witdh=&quot;300&quot; height=&quot;300&quot;/&gt;
+&lt;figcaption&gt;Figure 2: Length distribution of pieces in the test set used for Chord Generation.&lt;/figcaption&gt;
+&lt;/figure&gt;</p>
+<p>&lt;figure align=&quot;center&quot;&gt;
+&lt;img src=&quot;../assets/img/projects/proj-6/f3.png&quot; alt=&quot;Gparkkii's Zepeto&quot; witdh=&quot;300&quot; height=&quot;300&quot;/&gt;
+&lt;figcaption&gt;Figure 3: Generation using the baseline. The length distribution is short and concentrated, and no pieces longer than 200 measures are generated.&lt;/figcaption&gt;
+&lt;/figure&gt;</p>
+<hr />
+<h4>Transformer Can Catch Musical Information</h4>
+<p>There are many Transformer-based models, and papers such as Structured Inform, FME, and FMS explicitly add musical elements to the model. However, these approaches are all designed for generating everything &quot;at once.&quot;</p>
+<p>When learning only chord sequences, I showed that the model can learn musical information <strong><em>without additional elements</em></strong>.</p>
+<p>In the circle of fifths, adjacent chords are similar chords, while chords on opposite sides are distant. In NLP, similar words, such as substitutable words, are known to have high cosine similarity between their token embedding vectors.</p>
+<p>As shown in the results below, the model learned distances between chords according to the circle of fifths without additional information.</p>
+<p>&lt;figure align=&quot;center&quot;&gt;
+&lt;img src=&quot;../assets/img/projects/proj-6/f4.png&quot; alt=&quot;Gparkkii's Zepeto&quot; witdh=&quot;300&quot; height=&quot;300&quot;/&gt;
+&lt;figcaption&gt;Figure 4: Circle of fifths. Adjacent chords are close harmonies, while opposite chords are distant harmonies.&lt;/figcaption&gt;
+&lt;/figure&gt;</p>
+<p>&lt;figure align=&quot;center&quot;&gt;
+&lt;img src=&quot;../assets/img/projects/proj-6/f5.png&quot; alt=&quot;Gparkkii's Zepeto&quot; witdh=&quot;450&quot; height=&quot;270&quot;/&gt;
+&lt;figcaption&gt;Figure 5: Cosine similarity tables between embeddings of Major Chord Tokens (left) and minor Chord Tokens (right) for 12 roots. The results show that the model can learn musical meaning without additional inductive bias. For C-Maj, G-Maj and F-Maj, which are an ascending fifth and descending fifth away, had the highest similarity, while F#-Maj, which is opposite on the circle of fifths, had low similarity. The diagonal pattern shows that the same tendency appears for other notes as well.&lt;/figcaption&gt;
+&lt;/figure&gt;</p>
+<p>&lt;figure align=&quot;center&quot;&gt;
+&lt;img src=&quot;../assets/img/projects/proj-6/f6.png&quot; alt=&quot;Gparkkii's Zepeto&quot; witdh=&quot;400&quot; height=&quot;400&quot;/&gt;
+&lt;figcaption&gt;Figure 6: Cosine similarity matrix for all tokens. Chord tokens consist of 11 chord types per root (D+, D/o7, DD7, DM, DM7, Dm, Dm7, D0, Do7, Dsus2, Dsus4), for a total of 12*11 = 132 tokens. Similarly, chords related by fifths have high similarity, and chords with the same root also have high similarity.&lt;/figcaption&gt;
+&lt;/figure&gt;</p>
+<hr />
+<h4>Generated Chord Distribution</h4>
+<p>As shown below, the generated chord distribution matched the test set better than the baseline.</p>
+<p>&lt;figure align=&quot;center&quot;&gt;
+&lt;img src=&quot;../assets/img/projects/proj-6/f7.png&quot; alt=&quot;Gparkkii's Zepeto&quot; witdh=&quot;300&quot; height=&quot;300&quot;/&gt;
+&lt;figcaption&gt;Figure 7: Distribution of chords generated using the proposed Transformer Chord Generation Model. Compared with the target distribution below, it is more similar than the distribution generated by the baseline.&lt;/figcaption&gt;
+&lt;/figure&gt;</p>
+<p>&lt;figure align=&quot;center&quot;&gt;
+&lt;img src=&quot;../assets/img/projects/proj-6/f8.png&quot; alt=&quot;Gparkkii's Zepeto&quot; witdh=&quot;300&quot; height=&quot;300&quot;/&gt;
+&lt;figcaption&gt;Figure 8: Length distribution of pieces in the test set used for Chord Generation.&lt;/figcaption&gt;
+&lt;/figure&gt;</p>
+<p>&lt;figure align=&quot;center&quot;&gt;
+&lt;img src=&quot;../assets/img/projects/proj-6/f9.png&quot; alt=&quot;Gparkkii's Zepeto&quot; witdh=&quot;300&quot; height=&quot;300&quot;/&gt;
+&lt;figcaption&gt;Figure 9: Generation using the baseline. The chord distribution is relatively even, but some parts differ from the target set.&lt;/figcaption&gt;
+&lt;/figure&gt;</p>
+<hr />
+<h4>Efficiency - Chord BPE</h4>
+<p>Classical music can extend to about 700 measures when the piece is long. I also thought that chords carry more meaning as progressions within a phrase than as isolated sequential units.</p>
+<p>Therefore, to extract a meaningful corpus, I applied Byte Pair Encoding, commonly used in NLP, to the dataset and showed that <strong>performance remained similar even while the sequence length was reduced</strong>.</p>
+<p>This makes it possible to compress long sequence data.</p>
+<p>&lt;figure align=&quot;center&quot;&gt;
+&lt;img src=&quot;../assets/img/projects/proj-6/f10.png&quot; alt=&quot;Gparkkii's Zepeto&quot; witdh=&quot;300&quot; height=&quot;300&quot;/&gt;
+&lt;figcaption&gt;Figure 10: Chord prediction accuracy for each model on the test set. When BPE increases the vocabulary size from 150 to 20,000, accuracy decreases for the same model size, but becomes similar to the 150-vocabulary case when the model size is increased.&lt;/figcaption&gt;
+&lt;/figure&gt;</p>
+<p>&lt;figure align=&quot;center&quot;&gt;
+&lt;img src=&quot;../assets/img/projects/proj-6/f11.png&quot; alt=&quot;Gparkkii's Zepeto&quot; witdh=&quot;300&quot; height=&quot;500&quot;/&gt;
+&lt;figcaption&gt;Figure 11: Dataset sequence length by BPE vocabulary size. As the vocabulary size increases, the sequence is compressed to about 60 to 80 tokens.&lt;/figcaption&gt;
+&lt;/figure&gt;</p>
+<hr />
+<h4>Future Work</h4>
+<h4>Instrument Candidate Phase</h4>
+<p>After the chord progression, or number of measures, is determined, this stage selects the instruments that will be played in each measure. The factors determining the participating instrument types are:</p>
+<ol>
+<li>Chord changes</li>
+<li>Position within the current piece</li>
+<li>Type of instrument played immediately before</li>
+</ol>
+<p>I considered the position within the current piece to be important.</p>
+<p>This is because forms such as A-B-A, Sonata, Rondo, and Canon show patterns that repeat at certain proportions of the full length, regardless of the absolute length of the piece.</p>
+<p>Therefore, to inform the model of &quot;2. Position within the current piece,&quot; I proposed dividing the full length by ratio and quantizing it for positional encoding.</p>
+<p>Experiments comparing models with and without QPE are currently in progress.</p>
+<hr />
+<h4>Next Research Plan</h4>
+<h5>Instrument Candidate Phase</h5>
+<blockquote>
+<p>Find a fitting structure</p>
+</blockquote>
+<blockquote>
+<p>Analyze instrument embedding relations</p>
+</blockquote>
+<h5>Rhythm Phase</h5>
+<blockquote>
+<p>Find a fitting structure</p>
+</blockquote>
+<blockquote>
+<p>Efficient tokenization of onset position and duration</p>
+</blockquote>
+<h5>Note Assign Phase</h5>
+<blockquote>
+<p>Find a fitting structure</p>
+</blockquote>
+<blockquote>
+<p>Assign notes to the chord-based generated rhythm</p>
+</blockquote>
+<h5>Downstream Task Evaluation</h5>
+<blockquote>
+<p>Experiment with and propose various metrics, then compare against baselines and other models</p>
+</blockquote>
+<blockquote>
+<p>Compare downstream tasks such as composer classification and plagiarism checking</p>
+</blockquote>
+<h5>Writing</h5>
+<blockquote>
+<p>Target submission to the AI, Art &amp; Creative Track of IJCAI (International Joint Conference on Artificial Intelligence) in January</p>
+</blockquote>
+</div></div></section><footer><div class="footer-wrap"><div class="footer-tagline"><p></p></div><div class="social-media"><nav><a href="https://github.com/ongdyub" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a><a href="mailto:gksehdduq912@gmail.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a><a href="https://www.youtube.com/@user-ju5ov6yx9m" target="_blank"><i class="fa fa-youtube" aria-hidden="true"></i></a></nav></div></div></footer></div><script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script></body></html>

@@ -1,0 +1,3 @@
+Open local-html/index.html in your browser to preview the portfolio locally without running Jekyll.
+
+The repository source remains in the root folder. The local-html folder is a static HTML preview.

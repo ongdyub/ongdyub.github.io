@@ -3,54 +3,57 @@ layout: post
 title: 'Music to Text Description'
 ---
 
-#### 프로젝트 설명
+#### Project Description
 
-리그오브레전드 프로 게이머들의 테마곡을 만들어보고자 시도했던 과정 중에 발생한 문제를 해결하기 위한 중간 단계 프로젝트
+Period: **Undergraduate** (Jan. 2024 - Feb. 2024)
+
+
+This project was an intermediate step for solving a problem that arose while trying to generate theme songs for professional League of Legends players.
 
 Github : [https://github.com/ongdyub/Music-To-Text-Description-Model](https://github.com/ongdyub/Music-To-Text-Description-Model){:target="_blank"}
 
 ------------------------------------
 
-**선수를 대표 할 수 있는 곡을 만들어 보자!**
+**Let's create a song that can represent a player!**
 
-> 어떤 것을 지표로 해야 그 선수를 대표했다고 할 수 있을까?
+> What metric should define whether a song represents a player?
 
->> _선수가 사용하는 챔피언을 대표로 설정하자!_
+>> _Use the champions played by the player as the representative signal._
 
-**"챔피언" 이라는 고유명사를 어떻게 Music Generation에 활용하지?**
+**How can the proper noun "champion" be used for Music Generation?**
 
-> 고유명사인 만큼 혼자만의 특성을 생각해보자
+> Since it is a proper noun, focus on the unique characteristics of each champion.
 
->> 이미지의 경우 스킨이 여러개 있기 때문에 보통 하나만 공식적으로 존재하는 _챔피언의 테마곡_ 을 베이스로 삼아보자!
+>> Images have multiple skins, so instead use the _champion's official theme song_, which usually exists as a single canonical source.
 
-**챔피언의 테마곡을 Music Generation에 어떻게 적용시키지?**
+**How can a champion's theme song be applied to Music Generation?**
 
-> Generation에 활용할 모델인 facebook/MusicGen 의 Input, Output API의 형식을 알아보자!
+> Check the input and output API formats of facebook/MusicGen, the model used for generation.
 
->> _Text Condition Gen, Audio Condition Gen, Melody Condition Gen_ 3종류가 존재한다
+>> There are three types: _Text Condition Gen, Audio Condition Gen, and Melody Condition Gen_.
 
-#### 그럼 챔피언의 테마곡을 Description으로 바꿔서 이를 활용하자!
+#### Then convert the champion's theme song into a description and use it as the condition.
 
-**그런데 Description을 어떻게 만들어야하지?**
+**But how should the description be created?**
 
-> **음악을 Input으로 넣어주면 자동으로 설명을 만들어주는 모델을 개발하자!**
+> **Develop a model that automatically generates a description when music is provided as input.**
 
 ------------------------------------------------------------
 
-#### 사용한 기술
+#### Technologies Used
 
 Pytorch, Huggingface, Colab
 
 
-#### 프로젝트 내용
+#### Project Details
 
 1. Dataset
 
-    Audioset 에 있는 Music Theme의 dataset과 Music-caps Dataset을 활용
+    Used the Music Theme dataset from AudioSet and the MusicCaps dataset.
 
-    Audioset은 ytid - start - end - description pair 약 15k개, Music-caps는 약 5.5k를 수집, 개별 raw audio는 모두 10초
+    AudioSet provided about 15k ytid-start-end-description pairs, and MusicCaps provided about 5.5k samples. Each raw audio clip was 10 seconds long.
 
-    전체를 모두 학습에 활용하려 하였으나 코랩 사용의 비용 ~~가난한 학부생 ㅜㅜ~~ 문제로 Music-cpas + Audioset 조합의 6k개만 사용
+    I initially planned to use the full dataset for training, but due to Colab cost constraints ~~poor undergraduate student~~, I used only 6k samples from the MusicCaps + AudioSet combination.
 
     **Example Dataset**
 
@@ -59,21 +62,21 @@ Pytorch, Huggingface, Colab
 
 2. Models
 
-    Audio Encoder 후보 : AST, Wav2Vec2, Encodec, Hubert
+    Audio Encoder candidates: AST, Wav2Vec2, Encodec, Hubert
 
-    Text Decoder Structure 후보 : Plain Transformer, T5, LLaMa
+    Text Decoder Structure candidates: Plain Transformer, T5, LLaMa
 
-    GPU 비용의 문제로 전체 Training이 아닌 초반 10 Epoch의 Train/Test Loss 를 확인 후 조합 결정, 또한 Pretrained 와 From Scratch 여부도 변경해 가면서 실험
+    Due to GPU cost constraints, I did not run full training. Instead, I checked train/test loss during the first 10 epochs to choose the combination. I also varied whether each component was pretrained or trained from scratch.
 
-    최종 조합은
+    The final combination was
     
     **Encodec(Pre-Trained) + Plain-Transformer(From-Scratch)**
 
     **Why?**
 
-    > Encodec모델은 MusicGen에 실제로 사용되는 Audio 모델이기도 하다. 또한 다른 Audio Encoder와 가장 큰 차이점은, 다른 Encoder 들은 [bsz, seq_len, hidden_dim] 형식의 Output이지만 Encodec 모델은 Quantizer 를 활용한 Encoder-Decoder 구조로 Output이 Audio_codebook 이라는 Token과 같이 [bsz, # of codebook, codebook_seq] 형식으로 나온다.
+    > Encodec is also the audio model actually used in MusicGen. The biggest difference from other audio encoders is that other encoders output tensors in the form [bsz, seq_len, hidden_dim], while Encodec uses a quantizer-based encoder-decoder structure and outputs audio-codebook-like tokens in the form [bsz, # of codebook, codebook_seq].
 
-    즉 Input-Output 의 형태로만 보았을 때는 _**기존의 NLP 모델의 Text to Text 모델과 동일**_ 하다는 점이다.
+    In terms of the input-output structure, this is _**the same as a text-to-text model in conventional NLP**_.
 
     ![Model Structure](../assets/img/projects/proj-1/structure.png)
 
@@ -81,9 +84,9 @@ Pytorch, Huggingface, Colab
 
 #### Results
 
-Music-Description Dadtaset 에 대한 평가 지표가 존재하지 않아 Loss를 기준으로 하였다.
+Since no evaluation metric exists for the Music-Description dataset, I used loss as the primary criterion.
 
-아래의 예시들과 같이 Reasonable 한 결과들이 나옴을 알 수 있다.
+The examples below show that the model produced reasonable outputs.
 
 
 #### Examples Outputs

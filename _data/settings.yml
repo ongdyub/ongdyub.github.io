@@ -8,25 +8,26 @@ menu:
 - {name: 'Contact',  url: 'contact'}
 
 #-------------------------------
-# Projects Section
+# Works Section
+
+publications:
+- {name: 'TAP-ETS: Time-Aligned Phoneme Guiding for EMG-to-Speech Synthesis (Graduate)', url: 'tap-ets'}
 
 projects:
-- {name: 'Hierarchical Symbolic Music Generation : Chord',  url: 'proj-6'}
-- {name: 'Music To Text Description',   url: 'proj-1'}
-- {name: 'BCI - Neural Signal To Sentence',   url: 'proj-2'}
-- {name: 'Multi Document Summarization', url: 'proj-3'}
-# - {name: '아마추어 음악가의 별자리 - 음자리 웹 플랫폼',  url: 'proj-4'}
-
+- {name: 'Hierarchical Symbolic Music Generation : Chord (Undergraduate)',  url: 'proj-6'}
+- {name: 'Music To Text Description (Undergraduate)',   url: 'proj-1'}
+- {name: 'BCI - Neural Signal To Sentence (Undergraduate)',   url: 'proj-2'}
+- {name: 'Multi Document Summarization (Undergraduate)', url: 'proj-3'}
+# - {name: 'A Constellation for Amateur Musicians - Umjari Web Platform (Undergraduate)',  url: 'proj-4'}
 
 #-------------------------------
 # Contact Section
 
 social:
 # - {icon: 'twitter',   link: 'https://twitter.com/paululele'}
-- {icon: 'instagram', link: 'https://www.instagram.com/umjari_/'}
 - {icon: 'github',    link: 'https://github.com/ongdyub'}
 # - {icon: 'linkedin',  link: 'https://linkedin.com/in/lenpaul'}
-- {icon: 'envelope',  link: 'mailto:gksehdduq912@gmail.com'}
+- {icon: 'envelope',  link: 'mailto:handy912@snu.ac.kr'}
 - {icon: 'youtube',  link: 'https://www.youtube.com/@user-ju5ov6yx9m'}
 
 # social network icons available: 'twitter' / 'facebook' / 'github' / 'pinterest' 'google-plus' / 'linkedin' / 'youtube' / 'instagram' / 'dribbble' / 'behance' / 'soundcloud' / 'vine'
@@ -37,7 +38,7 @@ social:
 # NOTE: Providing SEO information will make this website more searchable on the internet.
 
 seo:
-  description: 'Personal portfolio powered by Ongdyub and GitHub Pages '
+  description: 'Dongyub Han portfolio: publications and projects in EMG-to-speech, speech/audio AI, MIR, and symbolic music generation.'
   rel-author: 'https://plus.google.com/u/0/#'
   rel-publisher: 'https://plus.google.com/u/0/#'
 

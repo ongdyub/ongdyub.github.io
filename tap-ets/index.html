@@ -1,0 +1,590 @@
+<!DOCTYPE HTML>
+<!--
+	Photon by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>TAP-ETS Demo</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+
+		<style>
+			/* =========================
+   Samples section (style2) tuning
+   ========================= */
+
+/* style2 섹션에서만 적용 */
+#samples.main.style2 {
+	/* 기존 배경을 유지하되 텍스트 대비를 조금 누름 */
+	color: rgba(255,255,255,0.82);
+}
+
+/* 섹션 설명 문단 */
+#samples.main.style2 p {
+	color: rgba(255,255,255,0.78);
+}
+
+/* 테이블: "카드" 느낌 */
+#samples.main.style2 .table-wrapper {
+	background: rgba(255,255,255,0.04);
+	border: 1px solid rgba(255,255,255,0.08);
+	border-radius: 12px;
+	padding: 0.75rem;
+}
+
+/* 테이블 기본 */
+#samples.main.style2 .sample-table {
+	width: 100%;
+	border-collapse: separate;
+	border-spacing: 0;
+}
+
+/* 헤더: 너무 하얗지 않게 */
+#samples.main.style2 .sample-table thead th {
+	background: rgba(255,255,255,0.06);
+	color: rgba(255,255,255,0.88);
+	font-weight: 700;
+	border-bottom: 1px solid rgba(255,255,255,0.10);
+}
+
+/* 셀 */
+#samples.main.style2 .sample-table th,
+#samples.main.style2 .sample-table td {
+	padding: 0.85rem 0.85rem;
+	vertical-align: top;
+}
+
+/* 행 구분선 */
+#samples.main.style2 .sample-table tbody tr {
+	border-top: none;
+}
+
+/* 행마다 아주 약한 배경 차이 */
+#samples.main.style2 .sample-table tbody tr:nth-child(odd) td {
+	background: rgba(255,255,255,0.02);
+}
+#samples.main.style2 .sample-table tbody tr:nth-child(even) td {
+	background: rgba(255,255,255,0.00);
+}
+
+/* hover: 살짝만 */
+#samples.main.style2 .sample-table tbody tr:hover td {
+	background: rgba(255,255,255,0.05);
+}
+
+/* GT 텍스트: 흰색 과다 방지 */
+#samples.main.style2 .sample-gt {
+	color: rgba(255,255,255,0.90);
+	font-weight: 650;
+}
+
+/* Baseline/Ours 박스: 어두운 배경 위 카드 */
+#samples.main.style2 .sample-box {
+	background: rgba(0,0,0,0.18);
+	border: 1px solid rgba(255,255,255,0.10);
+	border-radius: 10px;
+	padding: 0.7rem 0.75rem;
+	margin-bottom: 0.75rem;
+}
+
+/* transcript/wer */
+#samples.main.style2 .sample-meta {
+	color: rgba(255,255,255,0.72);
+	opacity: 1;
+	font-size: 0.92em;
+	margin-top: 0.45rem;
+	line-height: 1.35;
+}
+
+/* code 하이라이트: 너무 튀지 않게 */
+#samples.main.style2 code.small {
+	background: rgba(255,255,255,0.08);
+	color: rgba(255,255,255,0.86);
+	border: 1px solid rgba(255,255,255,0.10);
+	padding: 2px 6px;
+	border-radius: 6px;
+	font-size: 0.88em;
+}
+
+/* 오디오 컨트롤: 카드 안에서 너무 튀지 않게 */
+#samples.main.style2 audio {
+	width: 100%;
+	filter: saturate(0.9) contrast(0.95) brightness(0.98);
+	opacity: 0.95;
+}
+
+/* 모바일에서 테이블 답답하면 간격 조금 줄임 */
+@media (max-width: 736px) {
+	#samples.main.style2 .sample-table th,
+	#samples.main.style2 .sample-table td {
+		padding: 0.65rem 0.6rem;
+	}
+	#samples.main.style2 .table-wrapper {
+		padding: 0.55rem;
+	}
+}
+			.fig-grid {
+				display: flex;
+				align-items: stretch;
+			}
+
+			.fig-card {
+				display: flex;
+				flex-direction: column;
+			}
+
+			.fig-card .image {
+				flex-grow: 1;
+			}
+			/* 3 figures in one row + caption */
+			.fig-grid { margin-top: 1.25rem; }
+			.fig-card { text-align: center; }
+			.fig-card .image.fit { margin: 0; }
+			.fig-cap { margin-top: 0.6rem; font-size: 0.95em; opacity: 0.9; }
+
+			/* Sample table */
+			.sample-table { width: 100%; border-collapse: collapse; }
+			.sample-table th, .sample-table td { vertical-align: top; padding: 0.75rem 0.75rem; }
+			.sample-table thead th { font-weight: 700; }
+			.sample-table tbody tr { border-top: 1px solid rgba(255,255,255,0.12); }
+			.main.style1 .sample-table tbody tr { border-top: 1px solid rgba(0,0,0,0.12); }
+
+			.sample-meta { font-size: 0.9em; opacity: 0.9; margin-top: 0.35rem; }
+			.sample-gt { font-weight: 600; }
+			.sample-box { margin-bottom: 0.75rem; }
+
+			audio { width: 100%; }
+			code.small { font-size: 0.9em; }
+			/* =========================
+   Samples section background
+   ========================= */
+
+#samples.main.style2 {
+	background: linear-gradient(
+		180deg,
+		#3a4656 0%,
+		#2f3946 100%
+	);
+	color: rgba(255,255,255,0.85);
+}
+
+/* 섹션 제목 */
+#samples.main.style2 h2 {
+	color: #ffffff;
+}
+
+/* 섹션 설명 */
+#samples.main.style2 p {
+	color: rgba(255,255,255,0.75);
+}
+
+/* table wrapper 카드 */
+#samples.main.style2 .table-wrapper {
+	background: rgba(255,255,255,0.05);
+	border: 1px solid rgba(255,255,255,0.08);
+	border-radius: 12px;
+	padding: 0.75rem;
+	backdrop-filter: blur(4px);
+}
+		</style>
+	</head>
+
+	<body class="is-preload">
+
+		<!-- Header -->
+		<section id="header">
+			<div class="inner">
+				<h1><strong>TAP-ETS: Time-Aligned Phoneme Guiding for EMG-to-Speech</strong></h1>
+				<p>Dongyub Han, Injune Hwang, Jaejun Lee, Jiwon Lee, and Kyogu Lee<br />Accepted to Interspeech 2026<br /></p>
+				<!-- <ul class="actions special">
+					<li><a href="#overview" class="button scrolly">View Demo</a></li>
+				</ul> -->
+			</div>
+		</section>
+
+		<!-- Abstract + Figures: 같은 배경(한 섹션으로 합침) -->
+		<section id="overview" class="main style1">
+			<div class="container">
+
+				<!-- Abstract -->
+				<header class="major" style="margin-top:0;">
+					<h2 style="margin-bottom:0.75rem;">Abstract</h2>
+				</header>
+				<p>
+					Electromyography (EMG)-to-speech (ETS) synthesis generates speech from articulatory muscle activity without acoustic input. We propose TAP-ETS, a time-aligned phoneme guiding framework that conditions mel-spectrogram generation on frame-wise phoneme sequences through cross-attention. Unlike prior work that treats phonemes as auxiliary supervision, our model injects aligned phoneme embeddings directly into the decoder. We also introduce refinement strategies that redistribute merged semantic guidance over frame-wise EMG signals, enabling the seamless integration of arbitrary phoneme- or text-level correction methods without modifying the synthesis model. On the Gaddy silent EMG benchmark, TAP-ETS reduces WER from 25.12% to 19.77%, achieving state-of-the-art performance and demonstrating the importance of accurate frame-level alignment.
+				</p>
+
+				<!-- <ul class="actions special" style="margin-top:2rem;">
+					<li><a href="#samples" class="button scrolly">Silent Speech Synthesis</a></li>
+					<li><a href="#samples2" class="button scrolly">Frame-Wise Refinement</a></li>
+				</ul> -->
+
+				<hr style="margin:2.5rem 0;" />
+
+				<!-- Figures -->
+				<!-- Figures -->
+				<header class="major">
+					<h2>Figures</h2>
+				</header>
+				<!-- <p>Three key figures. Figures 1–2 are side-by-side; Figure 3 is centered below.</p> -->
+
+				<div class="row gtr-150 fig-grid">
+
+					<!-- Row 1: Fig1 + Fig2 -->
+					<div class="col-6 col-12-medium fig-card">
+						<span class="image fit">
+							<img src="images/fig1.png" alt="Figure 1" />
+						</span>
+						<p class="fig-cap"><b>Figure 1.</b> Schematic diagram of ETS training with time-aligned phoneme conditioning.</p>
+					</div>
+
+					<div class="col-6 col-12-medium fig-card">
+						<span class="image fit">
+							<img src="images/fig2.png" alt="Figure 2" />
+						</span>
+						<p class="fig-cap"><b>Figure 2.</b> Schematic diagram of semantic guiding with time-aligned phoneme refinement during inference.</p>
+					</div>
+
+					<!-- Row 2: Fig3 centered -->
+					<div class="col-8 off-2 col-12-medium fig-card">
+						<span class="image fit">
+							<img src="images/fig3.png" alt="Figure 3" />
+						</span>
+						<p class="fig-cap"><b>Figure 3.</b> Schematic diagram of semantic guiding with TAP. (a) illustrates the Levenshtein Distance based alignment. (b) shows the training procedure of the masking-based refinement model.</p>
+					</div>
+
+				</div>
+
+			</div>
+		</section>
+		<!-- Samples: 10개 정도 줄(행)로, sample number / GT text / (baseline audio+txt+WER) / (ours audio+txt+WER) -->
+		<section id="samples" class="main style2">
+			<div class="container">
+				<header class="major">
+					<h2>Speech Synthesis Samples from Silent EMG</h2>
+				</header>
+				<p>
+					<!-- Each row: <b>Sample #</b>, <b>GT text</b>, <b>Baseline</b> (audio + transcript + WER),
+					<b>Ours</b> (audio + transcript + WER).
+					Replace file paths and text. -->
+					The following samples are all speech synthesized from <span style="font-style:italic; text-decoration:underline; font-size:1.4em; font-weight:600;">silent</span> EMG.
+They are generated using EMG signals from the test set of Gaddy et al.
+We present the top 10 samples that show the largest WER improvement over the baseline.
+				</p>
+
+				<div class="table-wrapper">
+					<table class="sample-table">
+						<thead>
+							<tr>
+								<th style="width:8%;">#</th>
+								<th style="width:28%;">GT Text</th>
+								<th style="width:32%;">Baseline</th>
+								<th style="width:32%;">Ours</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- Row 1 -->
+							<tr>
+								<td><b>01</b></td>
+								<td class="sample-gt">besides that there was quite a heap of bicycles</td>
+															<td>
+								<audio controls>
+									<source src="samples/1_base.wav" type="audio/wav" />
+								</audio>
+								<div class="sample-meta">
+									Transcript: <code class="small">but since then there was quite a game of mysegals</code><br />
+									WER: <code class="small">55.56%</code>
+								</div>
+							</td>
+							<td>
+								<audio controls>
+									<source src="samples/1_my.wav" type="audio/wav" />
+								</audio>
+								<div class="sample-meta">
+									Transcript: <code class="small">besides that there was quite a team of bicycles</code><br />
+									WER: <code class="small">11.11%</code>
+								</div>
+							</td>
+							</tr>
+
+							<!-- Row 2 -->
+							<tr>
+								<td><b>02</b></td>
+								<td class="sample-gt">henderson he called you saw that shooting star last night</td>
+								<td>
+									<audio controls>
+										<source src="samples/2_base.wav" type="audio/wav" />
+									</audio>
+									<div class="sample-meta">
+										Transcript: <code class="small">enders in tikon do you follow that shooting star last night</code><br />
+										WER: <code class="small">50.00%</code>
+									</div>
+								</td>
+								<td>
+									<audio controls>
+										<source src="samples/2_my.wav" type="audio/wav" />
+									</audio>
+									<div class="sample-meta">
+										Transcript: <code class="small">henderson he called he saw that shooting star last night</code><br />
+										WER: <code class="small">10.00%</code>
+									</div>
+								</td>
+							</tr>
+
+							<!-- Row 3 -->
+							<tr>
+								<td><b>03</b></td>
+								<td class="sample-gt">such things i told myself could not be</td>
+								<td>
+									<audio controls>
+										<source src="samples/3_base.wav" type="audio/wav" />
+									</audio>
+									<div class="sample-meta">
+										Transcript: <code class="small">some of the things i told myself could not be me</code><br />
+										WER: <code class="small">50.00%</code>
+									</div>
+								</td>
+								<td>
+									<audio controls>
+										<source src="samples/3_my.wav" type="audio/wav" />
+									</audio>
+									<div class="sample-meta">
+										Transcript: <code class="small">so things i told myself could not be .</code><br />
+										WER: <code class="small">12.50%</code>
+									</div>
+								</td>
+							</tr>
+
+							<!-- Row 4 -->
+							<tr>
+								<td><b>04</b></td>
+								<td class="sample-gt">i found a little crowd of perhaps 20 people surrounding the huge hole in which the cylinder lay</td>
+								<td>
+									<audio controls>
+										<source src="samples/4_base.wav" type="audio/wav" />
+									</audio>
+									<div class="sample-meta">
+										Transcript: <code class="small">i felt a little crowd of perhaps twinning people surround the huge whole airmen to the cylinder lay</code><br />
+										WER: <code class="small">35.29%</code>
+									</div>
+								</td>
+								<td>
+									<audio controls>
+										<source src="samples/4_my.wav" type="audio/wav" />
+									</audio>
+									<div class="sample-meta">
+										Transcript: <code class="small">i found a little crowd of perhaps 20 people surrounding the huge hole in which the cylinder lay</code><br />
+										WER: <code class="small">0.00%</code>
+									</div>
+								</td>
+							</tr>
+
+							<!-- Row 5 -->
+							<tr>
+								<td><b>05</b></td>
+								<td class="sample-gt">fearful massacres in the thames valley</td>
+								<td>
+									<audio controls>
+										<source src="samples/5_base.wav" type="audio/wav" />
+									</audio>
+									<div class="sample-meta">
+										Transcript: <code class="small">fearful masters enter the thames of aeneas</code><br />
+										WER: <code class="small">66.67%</code>
+									</div>
+								</td>
+								<td>
+									<audio controls>
+										<source src="samples/5_my.wav" type="audio/wav" />
+									</audio>
+									<div class="sample-meta">
+										Transcript: <code class="small">fearful maskers into the thames valley</code><br />
+										WER: <code class="small">33.33%</code>
+									</div>
+								</td>
+							</tr>
+
+							<!-- Row 6 -->
+							<tr>
+								<td><b>06</b></td>
+								<td class="sample-gt">that was it</td>
+								<td>
+									<audio controls>
+										<source src="samples/6_base.wav" type="audio/wav" />
+									</audio>
+									<div class="sample-meta">
+										Transcript: <code class="small">that was data</code><br />
+										WER: <code class="small">33.33%</code>
+									</div>
+								</td>
+								<td>
+									<audio controls>
+										<source src="samples/6_my.wav" type="audio/wav" />
+									</audio>
+									<div class="sample-meta">
+										Transcript: <code class="small">that was it</code><br />
+										WER: <code class="small">0.00%</code>
+									</div>
+								</td>
+							</tr>
+
+							<!-- Row 7 -->
+							<tr>
+								<td><b>07</b></td>
+								<td class="sample-gt">in spite of ogilvy i still believed that there were men in mars</td>
+								<td>
+									<audio controls>
+										<source src="samples/7_base.wav" type="audio/wav" />
+									</audio>
+									<div class="sample-meta">
+										Transcript: <code class="small">it might have killed me i still believe and there were pen and bars</code><br />
+										WER: <code class="small">76.92%</code>
+									</div>
+								</td>
+								<td>
+									<audio controls>
+										<source src="samples/7_my.wav" type="audio/wav" />
+									</audio>
+									<div class="sample-meta">
+										Transcript: <code class="small">and might will be i still believe and there were men in mars</code><br />
+										WER: <code class="small">46.15%</code>
+									</div>
+								</td>
+							</tr>
+
+							<!-- Row 8 -->
+							<tr>
+								<td><b>08</b></td>
+								<td class="sample-gt">the horse took the bit between his teeth and bolted</td>
+								<td>
+									<audio controls>
+										<source src="samples/8_base.wav" type="audio/wav" />
+									</audio>
+									<div class="sample-meta">
+										Transcript: <code class="small">the horse looked the mid between the steve and bolted</code><br />
+										WER: <code class="small">40.00%</code>
+									</div>
+								</td>
+								<td>
+									<audio controls>
+										<source src="samples/8_my.wav" type="audio/wav" />
+									</audio>
+									<div class="sample-meta">
+										Transcript: <code class="small">the horse took the bit between his teeth and bolt</code><br />
+										WER: <code class="small">10.00%</code>
+									</div>
+								</td>
+							</tr>
+
+							<!-- Row 9 -->
+							<tr>
+								<td><b>09</b></td>
+								<td class="sample-gt">all night long the martians were hammering and stirring sleepless indefatigable at work upon the machines they were making ready and ever and again a puff of greenish white smoke whirled up to the starlit sky</td>
+								<td>
+									<audio controls>
+										<source src="samples/9_base.wav" type="audio/wav" />
+									</audio>
+									<div class="sample-meta">
+										Transcript: <code class="small">all dying long the martians were hammering and stirring sleeved this and defitting a bowl and worked upon the machine they were making ready and ever and again upon a greenish white smoke whirled up to the starlit sky</code><br />
+										WER: <code class="small">36.11%</code>
+									</div>
+								</td>
+								<td>
+									<audio controls>
+										<source src="samples/9_my.wav" type="audio/wav" />
+									</audio>
+									<div class="sample-meta">
+										Transcript: <code class="small">all night long the martians were hammering and stirring sleepless and unthinkable at work about the machines they were making ready and ever and again a puff of greenish white smoke whirled up to the starlit sky</code><br />
+										WER: <code class="small">8.33%</code>
+									</div>
+								</td>
+							</tr>
+
+							<!-- Row 10 -->
+							<tr>
+								<td><b>10</b></td>
+								<td class="sample-gt">it hardly seemed a fair fight to me at that time</td>
+								<td>
+									<audio controls>
+										<source src="samples/10_base.wav" type="audio/wav" />
+									</audio>
+									<div class="sample-meta">
+										Transcript: <code class="small">it hardly seemed to verify it to me at that time</code><br />
+										WER: <code class="small">27.27%</code>
+									</div>
+								</td>
+								<td>
+									<audio controls>
+										<source src="samples/10_my.wav" type="audio/wav" />
+									</audio>
+									<div class="sample-meta">
+										Transcript: <code class="small">it hardly seemed a fair fight to me at that time</code><br />
+										WER: <code class="small">0.00%</code>
+									</div>
+								</td>
+							</tr>
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</section>
+
+		<!-- Samples2: 자유롭게 추가 -->
+<!-- 		<section id="samples2" class="main style2 special">
+			<div class="container">
+				<header class="major">
+					<h2>Samples2</h2>
+				</header>
+				<p>Optional: ablations, more comparisons, error cases, alignment visualizations, etc.</p>
+
+				<div class="row gtr-150">
+					<div class="col-4 col-12-medium">
+						<h3>Extra 1</h3>
+						<audio controls>
+							<source src="samples/extra1.wav" type="audio/wav" />
+						</audio>
+					</div>
+					<div class="col-4 col-12-medium">
+						<h3>Extra 2</h3>
+						<audio controls>
+							<source src="samples/extra2.wav" type="audio/wav" />
+						</audio>
+					</div>
+					<div class="col-4 col-12-medium">
+						<h3>Extra 3</h3>
+						<audio controls>
+							<source src="samples/extra3.wav" type="audio/wav" />
+						</audio>
+					</div>
+				</div>
+
+			</div>
+		</section> -->
+
+		<!-- Footer -->
+		<section id="footer">
+			<!-- <ul class="icons">
+				<li><a href="#" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+				<li><a href="#" class="icon solid alt fa-file-pdf"><span class="label">Paper</span></a></li>
+				<li><a href="#" class="icon solid alt fa-envelope"><span class="label">Email</span></a></li>
+			</ul> -->
+			<ul class="copyright">
+				<!-- <li>&copy; Paper Demo</li> -->
+				<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+			</ul>
+		</section>
+
+		<!-- Scripts -->
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.scrolly.min.js"></script>
+		<script src="assets/js/browser.min.js"></script>
+		<script src="assets/js/breakpoints.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

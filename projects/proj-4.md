@@ -1,18 +1,18 @@
 ---
 layout: post
-title: '아마추어 음악가의 별자리 - 음자리 웹 플랫폼 개발'
+title: 'A Constellation for Amateur Musicians - Umjari Web Platform Development'
 ---
 
-#### 프로젝트 설명
+#### Project Description
 
-아마추어 음악인들을 위한 공연 검색 및 단체 검색 웹 플랫폼이다.
+This is a web platform for amateur musicians to search for performances and organizations.
 
-주식 정보 업체 딥트레이드 에서 제안한 1학기 동안 진행했던 프로젝트이며, 결과가 매우 잘 나와 프로젝트성 작업에 그치지 않고 실제로 앱(Xpercent) 내의 기능으로 탑재되었다.
+It was a semester-long project proposed by DeepTrade, a stock information company. The result was strong enough that it did not remain only a project deliverable, but was integrated into the actual Xpercent app as a feature.
 
-**작성중**
+**In progress**
 
 <!-- Github : [https://github.com/ongdyub/Multi-Document-Summarization](https://github.com/ongdyub/Multi-Document-Summarization){:target="_blank"}
 
-<a href="https://drive.google.com/file/d/1QF71094PzUU7Kom9QiA3HjwsYBmBehVG/view?usp=sharing" target="_blank"> 최종 보고서 전문 </a> -->
+<a href="https://drive.google.com/file/d/1QF71094PzUU7Kom9QiA3HjwsYBmBehVG/view?usp=sharing" target="_blank"> Full Final Report </a> -->
 
 ------------------------------------------------------------
