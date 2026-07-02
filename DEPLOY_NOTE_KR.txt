@@ -1,0 +1,14 @@
+수정 내용
+
+- GitHub Pages 배포용 루트 CSS를 local-html 미리보기와 같은 assets/css/all.css로 고정했습니다.
+- 기존 assets/css/all.sass와 local-html/assets/css/all.sass는 제거했습니다. Jekyll이 다른 스타일을 다시 컴파일하지 않게 하기 위함입니다.
+- _layouts/default.html의 CSS 링크에 v=20260702-1을 붙여 브라우저 캐시 때문에 예전 디자인이 보이는 문제도 막았습니다.
+- index.md, _includes/projects.html, _data/settings.yml 구조는 기존 목록형 레이아웃 그대로 유지했습니다.
+
+배포 방법
+
+1. 이 zip을 풀기
+2. ongdyub.github.io_deploy_matches_local_html 폴더 안의 내용 전체를 GitHub repo root에 복사
+3. git add .
+4. git commit -m "Fix deployed website style"
+5. git push
